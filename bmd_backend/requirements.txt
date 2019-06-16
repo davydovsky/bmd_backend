@@ -5,3 +5,4 @@ psycopg2==2.7.6.1
 pytz==2019.1
 sqlparse==0.3.0
 gunicorn==19.9.0
+django-cors-headers==2.1.0
