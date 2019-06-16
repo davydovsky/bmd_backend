@@ -2,7 +2,7 @@
 
 set -e
 
-PROJECTNAME=quizkingzapi
+PROJECTNAME=bmd
 HOMEDIR=/opt/$PROJECTNAME
 
 if ! getent group $PROJECTNAME 2>/dev/null ; then
