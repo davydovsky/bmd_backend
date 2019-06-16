@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    env_file:
+      - .env_production
+    volumes:
+      - .:/opt/quizkingzapi
+      - static_volume:/opt/quizkingzapi/static  # <-- bind the static volume
+      - media_volume:/opt/quizkingzapi/media  # <-- bind the media volume
+    networks:  # <-- here
+      - nginx_network
+
+  nginx:
+    image: nginx:1.13
+    ports:
+      - 80:80
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - static_volume:/opt/quizkingzapi/static  # <-- bind the static volume
+      - media_volume:/opt/quizkingzapi/media  # <-- bind the media volume
+    depends_on:
+      - web
+    networks:
+      - nginx_network
+
+  qcluster:
+    build: .
+    command: python manage.py qcluster
+    env_file:
+      - .env_production
+    volumes:
+      - .:/opt/quizkingzapi
+
+networks:
+  nginx_network:
+    driver: bridge
+
+volumes:
+  static_volume:  # <-- declare the static volume
+  media_volume:  # <-- declare the media volume
